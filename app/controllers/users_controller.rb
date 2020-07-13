@@ -49,7 +49,8 @@ class UsersController < ApplicationController
 
   private
   def load_user
-    return if @user
+    return if @user = User.find_by(id: params[:id])
+
     flash[:warning] = "User not found"
     redirect_to root_path
   end
