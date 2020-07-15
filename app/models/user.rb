@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy
+
   attr_accessor :remember_token, :activation_token, :reset_token
 
   scope :activated, ->{where activated: true}
@@ -60,6 +62,14 @@ class User < ApplicationRecord
 
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  def feed
+    Micropost.feed id
+  end
+
+  def display_image
+    image.variant(resize_to_limit: [500, 500])
   end
 
   private
