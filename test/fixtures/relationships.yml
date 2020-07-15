@@ -1,0 +1,12 @@
+one:
+  follower: hieu
+  followed: ronald
+two:
+  follower: ronald
+  followed: hieu
+three:
+  follower: archer
+  followed: hieu
+four:
+  follower: hieu
+  followed: macy

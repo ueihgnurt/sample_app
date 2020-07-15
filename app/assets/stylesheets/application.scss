@@ -1,6 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "custom.scss";
+@import "microposts.scss";
 body{
   padding-top: 60px;
 }
@@ -93,4 +94,7 @@ footer ul li {
     padding: 10px 0;
     border-bottom: 1px solid $gray-lighter;
   }
+}
+.users.follow {
+  padding: 0;
 }
