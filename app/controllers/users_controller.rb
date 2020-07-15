@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   prepend_before_action :load_user, except: [:index, :new, :create]
-  before_action :logged_in_user, except:  [:new,  :create, :show]
-  before_action :correct_user,   only:    [:edit, :update]
-  before_action :admin_user,     only:    :destroy
+  before_action :logged_in_user,    except: [:new,  :create, :show]
+  before_action :correct_user,      only:   [:edit, :update]
+  before_action :admin_user,        only:    :destroy
 
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.activated.paginate(page: params[:page])
   end
 
   def destroy
@@ -19,18 +19,15 @@ class UsersController < ApplicationController
   end
 
   def show
-    return if @user
-
-    flash[:warning] = "User not found"
-    redirect_to signup_path
+    redirect_to(root_url) && return unless @user.activated?
   end
 
   def create
     @user = User.new user_params
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       render "new"
     end
